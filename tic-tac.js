@@ -11,6 +11,7 @@ function TicTacGame() {
 	this.cellsCompleted = 0;
 	this.gameOver = false;
 	let gridCounter = 1;
+
 	for (var i = 0; i < 3; i++) {
 		let tempArray = [];
 		for (var j = 0; j < 3; j++) {
@@ -20,6 +21,7 @@ function TicTacGame() {
 		}
 		this.ticTacGrid.push(tempArray);
 	}
+
 }
 
 TicTacGame.prototype.getCellRow = function(cell) {
@@ -68,29 +70,42 @@ TicTacGame.prototype.checkWin = function(row, col) {
 		if (this.ticTacGrid[i][i] === this.currentPlayer.letter) d++;
 		if (this.ticTacGrid[gridSize -1 - i][i] === this.currentPlayer.letter) bd++;
 	}
+
 	if (r === gridSize || c === gridSize || d === gridSize || bd === gridSize) {
 		this.winner = this.currentPlayer;
 		this.gameOver = true;
 	}
+
 };
 
 TicTacGame.prototype.printGame = function(){
+
 	process.stdout.write( '\n' + '\t' + '-'.repeat(25) + '\n' );
+
 	for (let i = 0; i < this.ticTacGrid.length; i++) {
+
 		process.stdout.write( '\t' + '|');
+
 		for (let j = 0; j < this.ticTacGrid[i].length; j++) {
 			process.stdout.write(' '.repeat(3) + (this.ticTacGrid[i][j] || ' ') + '\t' + '|');
 		}
+
 		process.stdout.write( '\n' + '\t' + '|');
+
 		for (let j = 0; j < this.ticTacGrid[i].length; j++) {
 			process.stdout.write(' '.repeat(2) + '(' + this.getCellNum(i, j) + ')' + '\t' + '|');
 		}
+
 		process.stdout.write( '\n' + '\t' + '-'.repeat(25) + '\n' );
+
 	}
+
 	process.stdout.write( '\n' );
+
 };
 
 TicTacGame.prototype.startGame = function(){
+	
 	var buffer = '',
 		row, col;
 
