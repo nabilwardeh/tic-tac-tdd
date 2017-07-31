@@ -1,5 +1,4 @@
 
-var events = require('events'); 
 
 function TicTacGame() {
 	this.player1 = { name: 'Player 1', letter: 'X'};
@@ -10,10 +9,16 @@ function TicTacGame() {
 	this.winner = false;
 	this.cellsCompleted = 0;
 	this.gameOver = false;
+
+	this.gridAndMapGenerator();
+}
+
+TicTacGame.prototype.gridAndMapGenerator = function () {
 	let gridCounter = 1;
+	let tempArray;
 
 	for (var i = 0; i < 3; i++) {
-		let tempArray = [];
+		tempArray = [];
 		for (var j = 0; j < 3; j++) {
 			tempArray.push(null);
 			this.gridMap[gridCounter] = [i, j];
@@ -21,7 +26,6 @@ function TicTacGame() {
 		}
 		this.ticTacGrid.push(tempArray);
 	}
-
 }
 
 TicTacGame.prototype.getCellRow = function(cell) {
