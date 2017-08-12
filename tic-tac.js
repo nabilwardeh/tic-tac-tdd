@@ -1,10 +1,9 @@
 
-
 function TicTacGame() {
 	this.player1 = { name: 'Player 1', letter: 'X'};
 	this.player2 = { name: 'Player 2', letter: 'O'};
 	this.currentPlayer = this.player1;
-	this.ticTacGrid = [];
+	this.ticTacGrid = []; 
 	this.gridMap = {};
 	this.winner = false;
 	this.cellsCompleted = 0;
@@ -39,7 +38,9 @@ TicTacGame.prototype.getCellColumn = function(cell) {
 TicTacGame.prototype.isValidCell = function(cell) {
 	if (cell > 0 && cell < 10 && cell % 1 === 0) {
 		return true;
-	} else return false;
+	}
+
+	return false;
 };
 
 TicTacGame.prototype.getCellNum = function (row, col) {
@@ -174,11 +175,11 @@ TicTacGame.prototype.startGame = function(){
 };
 
 
-var myGame = new TicTacGame();
+// var myGame = new TicTacGame();
 
-myGame.startGame();
+// myGame.startGame();
 
-
+module.exports = TicTacGame;
 
 
 
