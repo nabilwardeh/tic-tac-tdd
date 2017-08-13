@@ -26,7 +26,7 @@ TicTacGame.prototype.gridAndMapGenerator = function () {
 		this.ticTacGrid.push(tempArray);
 	}
 }
-
+ 
 TicTacGame.prototype.getCellRow = function(cell) {
 	return this.gridMap[cell][0];
 };
