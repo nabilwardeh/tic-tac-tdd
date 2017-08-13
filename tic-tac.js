@@ -175,9 +175,9 @@ TicTacGame.prototype.startGame = function(){
 };
 
 
-// var myGame = new TicTacGame();
+var myGame = new TicTacGame();
 
-// myGame.startGame();
+myGame.startGame();
 
 module.exports = TicTacGame;
 
