@@ -8,6 +8,8 @@ describe('ticTacBoard should', () => {
   });
 
   afterEach(() => {
+    board.removeAllListeners('cellSet');
+    board.removeAllListeners('gridFull');
     board = null;
   });
 
@@ -24,7 +26,7 @@ describe('ticTacBoard should', () => {
   });
 
   test('fire \'cellSet\' event when cell set', done => {
-    board.on('cellSet', data => {
+    board.once('cellSet', data => {
       expect.anything();
       done();
     });
@@ -33,7 +35,7 @@ describe('ticTacBoard should', () => {
   });
 
   test('fire \'cellSet\' event when cell set and report cell and setter', done => {
-    board.on('cellSet', data => {
+    board.once('cellSet', data => {
       expect(data).toEqual([0, 0, 'X']);
       done();
     });
@@ -41,9 +43,17 @@ describe('ticTacBoard should', () => {
     board.setCell(0, 0, 'X');
   });
 
+  test('fire \'cellSet\' event when cell set and report cell and setter', done => {
+    board.once('cellSet', data => {
+      expect(data).toEqual([1, 2, 'O']);
+      done();
+    });
+
+    board.setCell(1, 2, 'O');
+  });
+
   test('fire \'gridFull\' event when all cells set', done => {
-    board.on('grid', data => {
-      expect(data).toBe(9);
+    board.once('gridFull', () => {
       done();
     });
 
@@ -53,6 +63,5 @@ describe('ticTacBoard should', () => {
       }
     }
   });
-
 
 });

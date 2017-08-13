@@ -10,15 +10,7 @@ function TicTacBoard() {
 TicTacBoard.prototype = new events.EventEmitter;
 
 TicTacBoard.prototype.boardGenerator = function () {
-	const tempArray = [];
-
-	for (let i = 0; i < 3; i++) {
-		tempArray.push(null);
-	}
-
-	for (let i = 0; i < 3; i++) {
-		this.ticTacGrid.push(tempArray);
-	}
+	this.ticTacGrid = Array.from({length: 3}, () => [null, null, null]);
 };
 
 TicTacBoard.prototype.isAvailable = function(row, col) {
@@ -33,42 +25,9 @@ TicTacBoard.prototype.setCell = function(row, col, char){
 	
 	this.emit('cellSet', [row, col, char]);
 
-	//if (this.cellsCompleted === 9) this.emit('gridFull', 9);
+	if (this.cellsCompleted === 9) this.emit('gridFull');
 
 	return true;
-};
-
-TicTacBoard.prototype.checkRows = function (char) {
-	return this.ticTacGrid.reduce((acc, subArray, idx) => {
-		return acc.push(subArray.reduce((acc, curr) => {
-			if (curr === char) return ++acc;
-			return acc;
-		}, 0));
-	}, []).filter(item => (item === 3)).length;
-};
-
-TicTacBoard.prototype.checkCols = function (char) {
-	return this.ticTacGrid[0].map((col, idx) => {
-		return this.ticTacGrid.reduce((acc, subArray) => {
-			if (subArray[idx] === char) return ++acc;
-			return acc;
-		}, 0);
-	}).filter(item => (item === 3)).length;
-};
-
-TicTacBoard.prototype.checkDiags = function (char) {
-	const diags = [0, 0];
-	this.ticTacGrid[0].map((col, idx) => {
-		return this.ticTacGrid.map( subArray => {
-			if (subArray[idx] === char) diags[0]++;
-			if (subArray[subArray.length - 1 - idx] === char) diags[1]++;
-		});
-	});
-	return diags.filter(item => (item === 3)).length;
-};
-
-TicTacBoard.prototype.checkWin = function(char) {
-	return this.checkRows(char) || this.checkCols(char) || this.checkDiags(char);
 };
 
 module.exports = TicTacBoard;
