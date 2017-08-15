@@ -1,5 +1,6 @@
 const TicTacBoard = require('./ticTacBoard');
-const events = require('events');
+const util = require('util');
+const EventEmitter = require('events').EventEmitter;
 
 function TicTacPlayer(name, letter) {
   this.name = name;
@@ -7,7 +8,12 @@ function TicTacPlayer(name, letter) {
   this.canPlay = false;
 }
 
-TicTacPlayer.prototype = new events.EventEmitter;
+util.inherits(TicTacPlayer, EventEmitter);
+
+TicTacPlayer.prototype.changeStatus = function () {
+  if (this.canPlay) this.canPlay = false;
+  else this.canPlay = true;
+};
 
 TicTacPlayer.prototype.makeMove = function (row, col) {
 	if (!this.canPlay) throw new Error('Not allowed to play');

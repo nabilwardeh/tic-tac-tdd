@@ -1,13 +1,16 @@
-const events = require('events');
+const EventEmitter = require('events').EventEmitter,
+			util = require('util');
+
 
 function TicTacBoard() {
 	this.ticTacGrid = [];
 	this.cellsCompleted = 0;
+	this.gameWon = false;
 	this.boardGenerator();
 	this.emit('boardReady');
 }
 
-TicTacBoard.prototype = new events.EventEmitter;
+util.inherits(TicTacBoard, EventEmitter);
 
 TicTacBoard.prototype.boardGenerator = function () {
 	this.ticTacGrid = Array.from({length: 3}, () => [null, null, null]);
@@ -17,8 +20,12 @@ TicTacBoard.prototype.isAvailable = function(row, col) {
 	return this.ticTacGrid[row][col] === null;
 };
 
+TicTacBoard.prototype.getCell = function(row, col) {
+	return this.ticTacGrid[row][col];
+};
+
 TicTacBoard.prototype.setCell = function(row, col, char){
-	if (!this.isAvailable(row, col)) throw new Error('cellAssigned');
+	if (!this.isAvailable(row, col)) throw new Error('Cell assigned');
 
 	this.ticTacGrid[row][col] = char;
 	this.cellsCompleted++;
@@ -27,7 +34,7 @@ TicTacBoard.prototype.setCell = function(row, col, char){
 
 	this.checkWin(char);
 
-	if (this.cellsCompleted === 9) this.emit('gridFull');
+	if (this.cellsCompleted === 9 && !this.gameWon) this.emit('gridFull');
 
 	return true;
 };
@@ -53,19 +60,20 @@ TicTacBoard.prototype.checkCols = function (char) {
 
 TicTacBoard.prototype.checkDiags = function (char) {
 	const diags = [0, 0];
-	this.ticTacGrid[0].map((col, idx) => {
-		return this.ticTacGrid.map( subArray => {
-			if (subArray[idx] === char) diags[0]++;
-			if (subArray[subArray.length - 1 - idx] === char) diags[1]++;
-		});
+
+	this.ticTacGrid.map((subArray, idx) => {
+		if (subArray[idx] === char) diags[0]++;
+		if (subArray[subArray.length - 1 - idx] === char) diags[1]++;
 	});
+
 	return diags.filter(item => (item === 3)).length;
 };
 
 TicTacBoard.prototype.checkWin = function(char) {
-	if (this.checkRows(char) || this.checkCols(char) || this.checkDiags(char)) this.emit('win', char);
+	if (this.checkRows(char) || this.checkCols(char) || this.checkDiags(char)) {
+		this.emit('win', char);
+		this.gameWon = true;
+	}
 };
-
-
 
 module.exports = TicTacBoard;
