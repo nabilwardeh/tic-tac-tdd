@@ -1,12 +1,12 @@
 {
-  "name": "bowling",
+  "name": "tic tac Toe",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "tic-tac.js",
   "scripts": {
     "test": "jest"
   },
-  "author": "Andrew Snead",
+  "author": "Nabil Wardeh",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^4.4.1",
